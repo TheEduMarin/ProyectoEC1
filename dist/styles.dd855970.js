@@ -117,85 +117,62 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/orderCalculator.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.calcularDescuento = calcularDescuento;
-exports.calcularImpuesto = calcularImpuesto;
-exports.calcularPrecioFinal = calcularPrecioFinal;
-exports.calcularSubtotal = calcularSubtotal;
-function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t.return || t.return(); } finally { if (u) throw o; } } }; }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-// src/orderCalculator.js
-
-function calcularSubtotal(cantidad, precio) {
-  return cantidad * precio;
-}
-var impuestos = {
-  UT: 0.0665,
-  NV: 0.08,
-  TX: 0.0625,
-  AL: 0.04,
-  CA: 0.0825
-};
-function calcularImpuesto(total, estado) {
-  return total * (impuestos[estado] || 0.0825);
-}
-var descuentos = [{
-  limite: 30000,
-  tasa: 0.15
-}, {
-  limite: 10000,
-  tasa: 0.10
-}, {
-  limite: 7000,
-  tasa: 0.07
-}, {
-  limite: 3000,
-  tasa: 0.05
-}, {
-  limite: 1000,
-  tasa: 0.03
-}];
-function calcularDescuento(total) {
-  var _iterator = _createForOfIteratorHelper(descuentos),
-    _step;
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var descuento = _step.value;
-      if (total >= descuento.limite) return total * descuento.tasa;
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
+})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
   }
-  return 0;
+  return bundleURL;
 }
-function calcularPrecioFinal(cantidad, precio, estado) {
-  var subtotal = calcularSubtotal(cantidad, precio);
-  var descuento = calcularDescuento(subtotal);
-  var impuesto = calcularImpuesto(subtotal - descuento, estado);
-  return subtotal - descuento + impuesto;
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+  return '/';
 }
-},{}],"src/uiHandler.js":[function(require,module,exports) {
-"use strict";
-
-var _orderCalculator = require("./orderCalculator.js");
-// src/uiHandler.js
-
-window.calcular = function () {
-  var cantidad = parseInt(document.getElementById("cantidad").value);
-  var precio = parseFloat(document.getElementById("precio").value);
-  var estado = document.getElementById("estado").value;
-  var total = (0, _orderCalculator.calcularPrecioFinal)(cantidad, precio, estado);
-  document.getElementById("resultado").textContent = "Total: $".concat(total.toFixed(2));
-};
-},{"./orderCalculator.js":"src/orderCalculator.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+function updateLink(link) {
+  var newLink = link.cloneNode();
+  newLink.onload = function () {
+    link.remove();
+  };
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+var cssTimeout = null;
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+    cssTimeout = null;
+  }, 50);
+}
+module.exports = reloadCSS;
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/styles.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -364,5 +341,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/uiHandler.js"], null)
-//# sourceMappingURL=/uiHandler.2f8afa70.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/styles.dd855970.js.map

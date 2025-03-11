@@ -2,19 +2,23 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Ventas</title>
-    <script defer src="src/uiHandler.js"></script>  <!-- Asegúrate que la ruta sea correcta -->
+    <link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
-    <h1>Calculadora de Ventas</h1>
-    <input type="number" id="cantidad" placeholder="Cantidad">
-    <input type="number" id="precio" placeholder="Precio por ítem">
-    <select id="estado">
-        <option value="CA">California</option>
-        <option value="TX">Texas</option>
-        <option value="NV">Nevada</option>
-    </select>
-    <button onclick="calcular()">Calcular</button>
-    <p id="resultado"></p>
+    <div class="container">
+        <h1>Calculadora de Ventas</h1>
+        <input type="number" id="cantidad" placeholder="Cantidad" />
+        <input type="number" id="precio" placeholder="Precio por ítem" />
+        <select id="estado">
+            <option value="CA">California</option>
+            <option value="TX">Texas</option>
+            <option value="NV">Nevada</option>
+        </select>
+        <button onclick="calcular()">Calcular</button>
+        <p id="resultado"></p>
+    </div>
+    <script defer src="src/uiHandler.js"></script>
 </body>
 </html>
