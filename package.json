@@ -1,17 +1,21 @@
 {
   "name": "tddproyectoec1",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
-  "author": "",
+  "author": "Eduardo Marin",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
+  "description": "Proyecto EC1",
+  "devDependencies": {
+    "jest": "^29.7.0",
     "parcel-bundler": "^1.12.5"
   }
 }
