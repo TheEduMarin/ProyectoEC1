@@ -1,3 +1,5 @@
+// src/orderCalculator.js
+
 export function calcularSubtotal(cantidad, precio) {
     return cantidad * precio;
 }
@@ -9,12 +11,19 @@ export function calcularImpuesto(total, estado) {
 }
 
 const descuentos = [{ limite: 30000, tasa: 0.15 }, { limite: 10000, tasa: 0.10 },
-    { limite: 7000, tasa: 0.07 }, { limite: 3000, tasa: 0.05 },
-    { limite: 1000, tasa: 0.03 }];
+                    { limite: 7000, tasa: 0.07 }, { limite: 3000, tasa: 0.05 },
+                    { limite: 1000, tasa: 0.03 }];
 
 export function calcularDescuento(total) {
-for (const descuento of descuentos) {
-if (total >= descuento.limite) return total * descuento.tasa;
+    for (const descuento of descuentos) {
+        if (total >= descuento.limite) return total * descuento.tasa;
+    }
+    return 0;
 }
-return 0;
+
+export function calcularPrecioFinal(cantidad, precio, estado) {
+    let subtotal = calcularSubtotal(cantidad, precio);
+    let descuento = calcularDescuento(subtotal);
+    let impuesto = calcularImpuesto(subtotal - descuento, estado);
+    return subtotal - descuento + impuesto;
 }
